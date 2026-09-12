@@ -69,7 +69,7 @@ interface StatusBadgeProps extends VariantProps<typeof statusBadgeVariants> {
 }
 
 function StatusBadge({ value, className, showDot = true }: StatusBadgeProps) {
-  const key = value.toLowerCase() as Parameters<typeof statusBadgeVariants>[0]['status']
+  const key = value.toLowerCase() as NonNullable<VariantProps<typeof statusBadgeVariants>>['status']
   const label = labelMap[value] ?? value
 
   return (

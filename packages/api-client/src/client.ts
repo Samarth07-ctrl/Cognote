@@ -91,20 +91,26 @@ export async function apiGet<T>(
 }
 
 export async function apiPost<T>(path: string, body?: unknown): Promise<T> {
-  const response = await fetch(`${_config.baseUrl}${path}`, {
+  const init: RequestInit = {
     method: 'POST',
     headers: buildHeaders(),
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-  })
+  }
+  if (body !== undefined) {
+    init.body = JSON.stringify(body)
+  }
+  const response = await fetch(`${_config.baseUrl}${path}`, init)
   return parseResponse<T>(response)
 }
 
 export async function apiPatch<T>(path: string, body?: unknown): Promise<T> {
-  const response = await fetch(`${_config.baseUrl}${path}`, {
+  const init: RequestInit = {
     method: 'PATCH',
     headers: buildHeaders(),
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-  })
+  }
+  if (body !== undefined) {
+    init.body = JSON.stringify(body)
+  }
+  const response = await fetch(`${_config.baseUrl}${path}`, init)
   return parseResponse<T>(response)
 }
 

@@ -172,19 +172,31 @@ export function SyncPage() {
                   {filesQuery.data.map((file) => (
                     <div
                       key={file.id}
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-accent/20 transition-colors"
+                      className="flex flex-col gap-1 px-4 py-3 hover:bg-accent/20 transition-colors"
                     >
-                      <FileStatusIcon status={file.status} />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">{file.name}</p>
-                        <p className="text-xs text-muted-foreground truncate">{file.path}</p>
+                      <div className="flex items-center gap-3">
+                        <FileStatusIcon status={file.status} />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-foreground truncate">{file.name}</p>
+                          <p className="text-xs text-muted-foreground truncate">{file.path}</p>
+                        </div>
+                        <div className="flex items-center gap-3 shrink-0">
+                          <span className="text-xs text-muted-foreground">
+                            {formatBytes(file.sizeBytes)}
+                          </span>
+                          <StatusBadge value={file.status} />
+                        </div>
                       </div>
-                      <div className="flex items-center gap-3 shrink-0">
-                        <span className="text-xs text-muted-foreground">
-                          {formatBytes(file.sizeBytes)}
-                        </span>
-                        <StatusBadge value={file.status} />
-                      </div>
+                      {file.status === 'FAILED' && file.failureReason && (
+                        <div className="ml-7 mt-1 rounded bg-destructive/10 border border-destructive/20 px-2.5 py-1.5 text-xs text-destructive flex items-center justify-between">
+                          <span><strong>Failure reason:</strong> {file.failureReason}</span>
+                        </div>
+                      )}
+                      {file.status === 'IGNORED' && file.ignoreReason && (
+                        <div className="ml-7 mt-0.5 text-2xs text-muted-foreground">
+                          Skipped: {file.ignoreReason}
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>

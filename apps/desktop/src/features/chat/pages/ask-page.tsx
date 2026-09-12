@@ -120,6 +120,7 @@ export function AskPage() {
     let finalContent = ''
     const finalCitations: Citation[] = []
 
+    let lastState: string | null = null
     try {
       const stream = chatApi.streamMessage({
         sessionId: sessionId.current,
@@ -134,26 +135,38 @@ export function AskPage() {
           finalCitations.push(chunk.citation)
         }
         if (chunk.type === 'state_change' && chunk.state) {
+          lastState = chunk.state
           setResponseState(chunk.state)
         }
         if (chunk.type === 'done') break
         if (chunk.type === 'error') {
+          lastState = 'error'
           setResponseState('error')
           break
         }
       }
     } catch {
+      lastState = 'error'
       setResponseState('error')
     } finally {
+      const confidence =
+        lastState === 'no_evidence'
+          ? 'insufficient'
+          : lastState === 'conflict'
+            ? 'medium'
+            : lastState === 'error'
+              ? 'low'
+              : 'high'
+
       const assistantMsg: ChatMessage = {
         id: `msg_a_${Date.now()}`,
         sessionId: sessionId.current,
         role: 'assistant',
         content: finalContent || streamingContent,
         citations: finalCitations,
-        confidence: 'high', // MOCK — real confidence from backend in Phase 9
-        processingLocation: 'Company Server', // MOCK
-        responseState: 'done',
+        confidence,
+        processingLocation: 'Company Server',
+        responseState: (lastState as any) ?? 'done',
         createdAt: new Date().toISOString(),
       }
       setMessages((prev) => [...prev, assistantMsg])

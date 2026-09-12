@@ -1,0 +1,13 @@
+{
+  "identifier": "default",
+  "description": "Cognote default capabilities — least privilege. Only explicitly listed permissions are granted.",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "dialog:allow-open",
+    "fs:allow-read-dir",
+    "fs:allow-stat",
+    "notification:default",
+    "shell:allow-open"
+  ]
+}

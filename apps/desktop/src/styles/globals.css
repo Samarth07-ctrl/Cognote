@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Cognote Design Tokens — Dark Enterprise Theme ─────────────────────────── */
+@layer base {
+  :root {
+    /* Base theme is always dark — enterprise desktop apps don't need light mode toggle */
+    --background: 222 47% 6%;         /* #0a0f1c deep navy */
+    --foreground: 213 31% 91%;        /* #d8e1ef near-white */
+
+    --card: 222 44% 9%;               /* #0f172a */
+    --card-foreground: 213 31% 91%;
+
+    --popover: 222 44% 9%;
+    --popover-foreground: 213 31% 91%;
+
+    --primary: 217 91% 60%;           /* #3b82f6 brand blue */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 217 33% 17%;         /* #1e293b */
+    --secondary-foreground: 213 31% 91%;
+
+    --muted: 217 33% 13%;             /* #172032 */
+    --muted-foreground: 215 20% 55%;  /* #64748b */
+
+    --accent: 217 33% 17%;
+    --accent-foreground: 213 31% 91%;
+
+    --destructive: 0 84% 60%;         /* #ef4444 */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 217 33% 17%;            /* #1e293b */
+    --input: 217 33% 17%;
+    --ring: 217 91% 60%;
+
+    --radius: 6px;
+
+    /* Status */
+    --success: 142 71% 45%;           /* #22c55e */
+    --warning: 38 92% 50%;            /* #f59e0b */
+
+    /* Sidebar */
+    --sidebar: 222 47% 7%;            /* slightly lighter than background */
+    --sidebar-foreground: 215 20% 65%;
+    --sidebar-border: 217 33% 14%;
+    --sidebar-accent: 217 33% 13%;
+    --sidebar-accent-foreground: 213 31% 91%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    /* Prevent user-selection on non-input elements (desktop app feel) */
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    /* Prevent context menu in app areas that aren't inputs */
+    -webkit-context-menu: none;
+  }
+
+  /* Allow text selection in content areas */
+  p, span, pre, code, [data-selectable], input, textarea {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  /* Scrollbar styling — dark enterprise theme */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/30;
+  }
+
+  /* Focus ring */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer utilities {
+  /* Cognote-specific utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .cognote-drag-region {
+    -webkit-app-region: drag;
+  }
+
+  .no-drag {
+    -webkit-app-region: no-drag;
+  }
+
+  /* Truncate with ellipsis */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

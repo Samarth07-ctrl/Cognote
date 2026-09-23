@@ -45,7 +45,7 @@ pub async fn pick_folder(app: tauri::AppHandle) -> Result<Option<PickedFolder>, 
 
     match folder {
         Some(path) => {
-            let path_str = path.to_string_lossy().to_string();
+            let path_str = path.to_string();
             let display_name = Path::new(&path_str)
                 .file_name()
                 .map(|n| n.to_string_lossy().to_string())
